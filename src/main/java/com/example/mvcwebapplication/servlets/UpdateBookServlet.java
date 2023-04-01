@@ -12,10 +12,17 @@ import java.io.IOException;
 public class UpdateBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        BookDAO bookDAO = new BookDAO();
+        Book book = bookDAO.getBookByID(id);
+
+        request.setAttribute("book", book);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("updateBook.jsp");
         dispatcher.forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,10 +41,7 @@ public class UpdateBookServlet extends HttpServlet {
         BookDAO bookDAO = new BookDAO();
         bookDAO.updateBook(updatedBook);
 
-        response.sendRedirect("books.jsp");
-
-
-
+        response.sendRedirect("books");
 
     }
 }
